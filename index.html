@@ -75,7 +75,7 @@
 		if (searchText=="Search"){
 			searchText=$("#searchText").val();
 		}
-		var endpoint = "http://api.giphy.com/v1/gifs/search"; 
+		var endpoint = "https://api.giphy.com/v1/gifs/search"; 
 		var querystring = "?q=" + searchText + "&limit=10&api_key=dc6zaTOxFJmzC"; 
 		var queryURL = endpoint + querystring;
 		// alert(queryURL);
