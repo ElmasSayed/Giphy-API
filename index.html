@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color:black;">
+	<div class="container" style="background-color:gray;">
+		<center><h1 style="color:black; margin:5px; padding:5px; font-size:60px;">Celebrity Giphy Search</h1></center>
+		<!-- Search input and button -->
+		<div style="margin-bottom:20px; float:right; display:block;">
+			<label for="searchText"></label>
+			<input type="text" id="searchText"></input>
+			<button id="searchButton">Search</button>
+		</div>
+	</div>
+	<div class="container">
+		<div id="animalDiv">
+		</div>
+	</div>
+	<div class="container" >	
+		<div id="giphyDiv">
+		</div>
+	</div>
+
+	<!-- Script --------------------------------------------- -->
+	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+ 	<script type="text/javascript">
+
+//button creat
+ 	var gifArray = ["Michael Jackson", "Oprah Winfrey", "George Clooney", "Priyanka Chopra", "Aariana Grande", "Briteny Spears","Kim Kardashian", "Naomi Campbell", "Diana Ross", "Prince"];
+
+ 	for (var i=0; i<gifArray.length; i++) {
+ 		var animalButton = $("<button>");
+ 		animalButton.text(gifArray[i]);
+ 		animalButton.css({
+ 						"margin":"10px", 
+				 		"width":"150px",
+				 		"height":"30px",
+				 		"background-color":"pink"
+				 		});
+ 		$("#animalDiv").append(animalButton);
+ 	}
+//------------------------------------------------
+		//append button to div
+	$("#searchButton").on("click", function(){
+    	var animalButton = $("<button>");
+    	var searchText = $("#searchText")
+	    animalButton.text(searchText.val());
+	 	animalButton.css({
+ 						"margin":"10px", 
+				 		"width":"150px",
+				 		"height":"30px",
+				 		"background-color":"pink"
+				 		});
+	 	if (searchText.val() !== ""){
+	 	   $("#animalDiv").append(animalButton);
+	 	}
+ 	});
+
+// -------------------------------------------------------------
+
+	$("#animalDiv").on("click","button",function(){
+		if(this.id === "searchText"){
+			return;
+		}
+		var currentBtn = $(this);
+		var searchText = currentBtn.text();
+		if (searchText=="Search"){
+			searchText=$("#searchText").val();
+		}
+		var endpoint = "http://api.giphy.com/v1/gifs/search"; 
+		var querystring = "?q=" + searchText + "&limit=10&api_key=dc6zaTOxFJmzC"; 
+		var queryURL = endpoint + querystring;
+		// alert(queryURL);
+
+		$.ajax({
+			url: queryURL,
+			method:"GET",
+		}).done(function(response) {
+	      // console.log(response);
+	      // console.log(response.data[0].rating);
+	      displayAllImagesOnScreen(response);
+	   	});
+	});
+	//-------------------------------------------------------------------------------------------------
+		
+		var displayAllImagesOnScreen = function(response){
+
+		for (var i=0; i<response.data.length; i++) {
+			var record = response.data[i];
+			console.log(record);
+
+			var para = $("<p>");
+			para.text(record.rating);
+			para.css({
+				"font-size":"20px",
+				"text-align":"center",
+				"color":"black",
+			});
+
+			var img = $("<img>");
+			img.css({
+					"width":"250px",
+					"height":"250px",
+					"margin-left":"20px",
+					"margin-bottom":"10px",
+					});
+			img.attr("src",record.images.fixed_height.url);
+			img.attr("data-still",record.images.original_still.url);
+			img.attr("data-animate", record.images.fixed_height.url);
+			img.attr("data-state", "still")
+
+			var div = $("<div>");
+			div.css({
+				"width":"300px",
+				"height":"300px",
+				"margin":"10px",
+				"background-color":"gray",
+				"border-color":"white",
+				"border":"5px",
+				});
+
+			div.prepend("Ratings : " + para.text());
+			div.append(img);
+
+			$("#giphyDiv").prepend(div);
+			}
+	}
+//---------------------------------------------------
+	$("#giphyDiv").on("click","img",function(){
+		console.log("hi");
+
+		var state = $(this).attr("data-state");
+			if (state === "still"){
+			$(this).attr("src", $(this).attr("data-animate"));
+			$(this).attr("data-state", "active")
+       	} else {
+			$(this).attr("src", $(this).attr("data-still"));
+			$(this).attr("data-state", "still");
+		}
+ 	});
+ 
+ 	</script>
+</body>
+</html>
+
