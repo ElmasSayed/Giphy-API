@@ -29,11 +29,11 @@
 		</div>
 	</div>
 
-	<!-- Script --------------------------------------------- -->
+	<!-- SCRIPT -->
 	<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
  	<script type="text/javascript">
 
-//button creat
+	//Button create
  	var gifArray = ["Michael Jackson", "Oprah Winfrey", "George Clooney", "Priyanka Chopra", "Aariana Grande", "Briteny Spears","Kim Kardashian", "Naomi Campbell", "Diana Ross", "Prince"];
 
  	for (var i=0; i<gifArray.length; i++) {
@@ -47,8 +47,8 @@
 				 		});
  		$("#animalDiv").append(animalButton);
  	}
-//------------------------------------------------
-		//append button to div
+	//-------------------------------------------------------------------------------------------------
+	//Append button to div
 	$("#searchButton").on("click", function(){
     	var animalButton = $("<button>");
     	var searchText = $("#searchText")
@@ -64,7 +64,7 @@
 	 	}
  	});
 
-// -------------------------------------------------------------
+	//-------------------------------------------------------------------------------------------------
 
 	$("#animalDiv").on("click","button",function(){
 		if(this.id === "searchText"){
@@ -133,7 +133,7 @@
 			$("#giphyDiv").prepend(div);
 			}
 	}
-//---------------------------------------------------
+	//-------------------------------------------------------------------------------------------------
 	$("#giphyDiv").on("click","img",function(){
 		console.log("hi");
 
